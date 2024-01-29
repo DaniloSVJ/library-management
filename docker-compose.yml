@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: library-management-db
+      MYSQL_USER: root2
+      MYSQL_PASSWORD: 123951
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+
+  prisma:
+    image: prismagraphql/prisma:latest
+    environment:
+      PRISMA_CONFIG: |
+        managementApiSecret: 97697d7d337c5c622385f685e25e1090223f262459243c2aa2d2ad8783e85167
+        databases:
+          default:
+            connector: mysql
+            host: mysql
+            port: 3306
+            user: root2
+            password: 123951
+            database: library-management-db
+            migrations: true
+    volumes:
+      - ./prisma:/app
+    depends_on:
+      - mysql
