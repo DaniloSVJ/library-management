@@ -1,20 +1,20 @@
-# Use uma imagem Node.js como base
+# Use the official Node.js image as base
 FROM node:14
 
-# Crie o diretório de trabalho do aplicativo
+# Set the working directory in the container
 WORKDIR /app
 
-# Copie os arquivos de configuração e de dependências
+# Copy package.json and package-lock.json to the container
 COPY package*.json ./
 
-# Instale as dependências
+# Install dependencies
 RUN npm install
 
-# Copie o resto dos arquivos do aplicativo
+# Copy the rest of the application code to the container
 COPY . .
 
-# Exponha a porta que o aplicativo será executado (se aplicável)
+# Expose the port on which your application will run
 EXPOSE 3000
 
-# Comando para iniciar a aplicação
+# Command to run your application
 CMD ["npm", "start"]
