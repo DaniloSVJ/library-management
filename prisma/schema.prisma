@@ -19,5 +19,39 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  rentals   RentalHistory[]
+
   @@map("users")
 }
+
+model Books {
+  id    Int    @id @default(autoincrement())
+  title String
+  author String
+  availability Boolean @default(true)
+  active    Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  rentals   RentalHistory[]
+
+  @@map("books")
+}
+
+model RentalHistory {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  bookId    Int
+  rentdate DateTime
+  returndate DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  user      User     @relation(fields: [userId], references: [id])
+  book      Books    @relation(fields: [bookId], references: [id])
+
+  @@map("rentalhistory")
+
+
+}
+
+
