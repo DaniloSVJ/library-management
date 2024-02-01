@@ -1,5 +1,5 @@
 import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
-import { UserIdCheckMiddleware } from 'src/middlewares/user-id-check.middleware';
+import { ParamIdCheckMiddleware } from 'src/middlewares/user-id-check.middleware';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { BookController } from './book.controller';
 import { BookService } from './book.service';
@@ -9,13 +9,13 @@ import { BookService } from './book.service';
     imports:[],
     controllers:[BookController],
     providers:[BookService,PrismaService],
-    exports:[]
+    exports:[BookService]
 })
 
 export class BookModule implements NestModule{
     configure(consumer: MiddlewareConsumer) {
-        consumer.apply(UserIdCheckMiddleware).forRoutes({
-            path: 'users/:id',
+        consumer.apply(ParamIdCheckMiddleware).forRoutes({
+            path: 'books/:id',
             method: RequestMethod.ALL
         })
     }

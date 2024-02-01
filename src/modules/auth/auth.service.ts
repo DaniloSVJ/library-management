@@ -1,11 +1,12 @@
 
-import { Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { PrismaService } from "src/prisma/prisma.service";
 import * as bcrypt from 'bcrypt';
 import {User} from 'prisma/prisma-client'
 import { Subject } from "rxjs";
 import { UserService } from "src/modules/users/user.service";
+import { AuthRegisterDTO } from "./dto/auth-register";
 
 @Injectable()
 export class AuthService {
@@ -15,7 +16,7 @@ export class AuthService {
         private readonly userService: UserService,
     ) { }
 
-    async createToken(user:User) {
+     createToken(user:User) {
         return this.jwtService.sign({
             id:user.id,
             name:user.name,
@@ -28,8 +29,25 @@ export class AuthService {
         })
     }
 
-    async checkToken() {
-
+    checkToken(token:string) {
+        try {
+            return this.jwtService.verify(token,{
+                audience:'user',
+                issuer:'login'
+            })
+        } catch (e) {
+            throw new BadRequestException(e)
+        }
+       
+    }
+    isValidToken(token:string) {
+        try {
+            this.jwtService.verify(token)
+            return true
+        } catch (e) {
+            return true
+        }
+       
     }
     async signIn(email: string, password: string) {
         const user = await this.prisma.user.findFirst({ where: { email } });
@@ -48,31 +66,11 @@ export class AuthService {
 
         return this.createToken(user);
     }
-    async forget(email: string) {
-        const user = await this.prisma.user.findFirst({ where: { email } });
+  
+    async register(data: AuthRegisterDTO) {
+        const user = await this.userService.create(data)
+        return this.createToken(user);
 
-        if (!user) {
-            throw new UnauthorizedException('Invalid credentials');
-        }
-
-
-       
-
-        //enviar email
-        return user;
     }
-    async register(password:string, token:string) {
-        //se o token for valido
-
-        // await this.prisma.user.update({
-            
-        // })
-    }
-    async reset(password:string, token:string) {
-        //se o token for valido
-
-        // await this.prisma.user.update({
-            
-        // })
-    }
+  
 }

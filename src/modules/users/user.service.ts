@@ -20,7 +20,6 @@ export class UserService{
         })
 
         if (existingUser) {
-          // E-mail já em uso, lançar uma exceção de conflito
           throw new ConflictException('E-mail already in use');
         }
         const hashedPassword = await bcrypt.hash(password, 10); // 10 é o número de rounds de hash

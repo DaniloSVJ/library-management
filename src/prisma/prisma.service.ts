@@ -11,8 +11,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit{
 
 
     async enableShutdownHooks(app: INestApplication) {
-        // Use uma função anônima em vez de uma arrow function
-        this.$disconnect()
+      await this.$disconnect()
     }
 
 }

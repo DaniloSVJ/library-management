@@ -1,29 +1,25 @@
 import { CreateBookDTO } from "./create-book.dto";
 import {PartialType} from '@nestjs/mapped-types'
-import {IsString, IsEmail, IsStrongPassword, IsBoolean, IsOptional} from 'class-validator'
+import {IsString, IsEmail, IsNotEmpty, IsBoolean, IsOptional} from 'class-validator'
+import { ApiProperty } from '@nestjs/swagger';
+
 
 export class UpdatePatchBookDTO extends PartialType(CreateBookDTO){
     
+    @ApiProperty()
     @IsOptional()
     @IsString()
-    name:string;
+    title:string;
 
+    @ApiProperty()
     @IsOptional()
-    @IsEmail()
-    email:string;
+    @IsString()
+    author:string;
 
-    @IsOptional()
-    @IsStrongPassword({
-        minLength: 6,
-        minNumbers:0,
-        minLowercase:0,
-        minSymbols:0,
-        minUppercase:0
-    })
-    password:string;
-    
+  
+    @ApiProperty()
     @IsOptional()
     @IsBoolean()
-    active: boolean;
+    availability: boolean;
    
 }

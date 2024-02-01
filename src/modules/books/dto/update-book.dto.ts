@@ -1,14 +1,19 @@
 import { CreateBookDTO } from "./create-book.dto";
-import {IsString, IsEmail, IsStrongPassword, IsBoolean, IsOptional} from 'class-validator'
+import {IsString, IsNotEmpty, IsBoolean, IsOptional} from 'class-validator'
+import { ApiProperty } from '@nestjs/swagger';
 
 
 export class UpdatePutBookDTO extends CreateBookDTO{
+   
+    @ApiProperty()
     @IsString()
     title:string;
 
+    @ApiProperty()
     @IsString()
     author:string;
-    
+  
+    @ApiProperty()
     @IsOptional()
     @IsBoolean()
     availability: boolean;

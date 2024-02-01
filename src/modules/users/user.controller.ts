@@ -1,9 +1,10 @@
-import { Controller,Post,Get,Put, Body, Param, Patch, Delete, ParseIntPipe } from "@nestjs/common";
+import { Controller,Post,Get,Put, Body, UseGuards, Patch, Delete, ParseIntPipe } from "@nestjs/common";
 import { ParamId } from "src/decorators/param.id.decorator";
 import { CreateUserDTO } from "./dto/create-user.dto";
 import { UpdatePatchUserDTO } from "./dto/update-patch-user.dto";
 import { UpdatePutUserDTO } from "./dto/update-user.dto";
 import { UserService } from "./user.service";
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('users')
 
