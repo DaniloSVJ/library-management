@@ -28,7 +28,9 @@ $ docker-compose up
 5-Agora rode o component usando o comando abaixo:
 $ docker-compose start
 
-6-Agora com o componente do banco chegou a hora de rodar as migrations para criar a tabelas do banco. Use o comando abaixo:
+6-Agora com o componente do banco chegou a hora de rodar as migrations para criar a tabelas do banco. Use os comandos abaixo:
+$ prisma generate 
+            
 $ prisma migrate dev
 
 7-Pronto agora você pode roda o projeto com o camando abaixo:
@@ -40,7 +42,7 @@ http://localhost:3000/api
 
 No swagger está tudo documentado e descrito o que faz cada rota.
 
-9- Você pode testar o projeto tanto no swagger pela api abaixo como pelo postman ou insomnia
+9- Você pode testar o projeto tanto no swagger, como pelo postman ou insomnia
 
 10- Para executar os teste digite no terminal o comando abaixo:
 $ npm run test
@@ -49,4 +51,4 @@ Só criei dois test por que iria levar muito tempo para criar todos os testes
 
 No swagger está tudo documentado e descrito o que faz cada rota.
 
-Caso tenha problemas para executar a api fale comigo pelo whatsapp: 85986070928. Também tem telegram. Ou responda por email
+Caso tenha problemas para executar a api fale comigo pelo whatsapp: 85986070928. Também tem telegram: (85986070928). Ou responda por email
