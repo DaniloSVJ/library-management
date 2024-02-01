@@ -1,6 +1,6 @@
 Antes de tudo saiba que esse projeto está com o swagger. Logo toda api está documentada
 
-Na hora que for testar cadastro de usuario vc terá que cadastrar dois tipos de usuarios. Um usuario admin com a role=2 e o usario comum com role=1
+Na hora que for testar cadastro de usuario vc terá que cadastrar dois tipos de usuarios. Um usuário admin com a role=2 e o usuário comum com role=1
 
 Fiz dessa forma pensando que um usuario comum não pode desativar outros usuarios. E também não pode desativar os livros da tabela book. Então cadastrei essa regra de negócio
 

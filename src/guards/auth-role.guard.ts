@@ -26,9 +26,15 @@ export class UseGuard implements CanActivate {
       if(!requeridRoles){
         return true
       }
+      const {user} = context.switchToHttp().getRequest()
 
-      
-      return true;
+      const verify = requeridRoles.filter(role=>role===user.role)
+      if(verify.length>0){
+        return true
+      }else{
+        return false
+      }
+     
   }
 
 

@@ -20,7 +20,8 @@ export class AuthService {
         return this.jwtService.sign({
             id:user.id,
             name:user.name,
-            email:user.email
+            email:user.email,
+            role:user.role
         },{
             expiresIn:'7 days',
             subject:String(user.id),
