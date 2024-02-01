@@ -21,7 +21,7 @@ https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-o
 https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04-pt
 
 
-4-Depois de instalar o docker e o docker-compose rodo o comando abaixo no terminal no diretorio do projeto:
+4-Depois de instalar o docker e o docker-compose rode o comando abaixo no terminal no diretorio do projeto:
 
 $ docker-compose up
 
