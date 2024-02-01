@@ -1,6 +1,6 @@
 import { MiddlewareConsumer, Module, NestModule, RequestMethod,   } from '@nestjs/common';
-import { ParamIdCheckMiddleware } from 'src/middlewares/user-id-check.middleware';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { ParamIdCheckMiddleware } from '../../middlewares/user-id-check.middleware';
+import { PrismaService } from '../../prisma/prisma.service';
 import { AuthService } from '../auth/auth.service';
 import { BookService } from '../books/book.service';
 import { UserService } from '../users/user.service';

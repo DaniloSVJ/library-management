@@ -1,6 +1,7 @@
 
-import {IsString, IsEmail, IsStrongPassword, IsBoolean, IsOptional} from 'class-validator'
+import {IsString, IsEmail, IsStrongPassword, IsBoolean, IsOptional, IsEnum} from 'class-validator'
 import { ApiProperty } from '@nestjs/swagger';
+import { Role } from '../../../enums/role.enums';
 
 export class CreateUserDTO{
     @ApiProperty()
@@ -20,6 +21,11 @@ export class CreateUserDTO{
         minUppercase:0
     })
     password:string;
+
+    @ApiProperty({example:'string //opcional. Mas para cadastrar como admin coloque 2'})
+    @IsOptional()
+    @IsEnum(Role)
+    role: number
 
     
 }

@@ -1,7 +1,5 @@
 import { Controller,Post,Headers,Put, Body,  Patch, Delete, UseGuards } from "@nestjs/common";
-import { AuthGuard } from "src/guards/auth.guard";
-import { Public } from "src/guards/constants";
-import { UserService } from "src/modules/users/user.service";
+import { Public } from "../../guards/constants";
 import { AuthService } from "./auth.service";
 import { AuthRegisterDTO } from "./dto/auth-register";
 import { AuthSignDTO } from "./dto/auth-signIn";
@@ -26,6 +24,7 @@ export class AuthController{
         return this.authService.signIn(email,password)
 
     }
+    @ApiOperation({ summary: 'Cadastrar usuários' })
     @Public()
     @Post('register')
     async register(@Body() body:AuthRegisterDTO){
@@ -35,11 +34,5 @@ export class AuthController{
  
 
   
-    @Public()
-    @Post('me')
-    async me(@Headers("authorization") token){
-        return this.authService.checkToken(token.split(' ')[1])
-
-    }
-
+   
 }

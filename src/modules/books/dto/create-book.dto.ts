@@ -12,7 +12,7 @@ export class CreateBookDTO{
     author:string;
 
   
-    @ApiProperty()
+    @ApiProperty({example:'boolean //opcional'})
     @IsOptional()
     @IsBoolean()
     availability: boolean;

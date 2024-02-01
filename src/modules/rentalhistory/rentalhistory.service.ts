@@ -1,9 +1,8 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { PrismaService } from "src/prisma/prisma.service";
+import { PrismaService } from "../../prisma/prisma.service";
 import { BookService } from "../books/book.service";
-import { UpdatePatchBookDTO } from "../books/dto/update-patch-book.dto";
+import { UserService } from "../users/user.service";
 import { CreateRentalHistoryDTO } from "./dto/create-rentalhistory.dto";
-import {  UpdatePatchRentalHistoryDTO} from "./dto/update-patch-rentalhistory.dto";
 
 
 @Injectable()
@@ -11,10 +10,17 @@ export class RentalHistoryService{
 
     constructor(
         private readonly prisma: PrismaService,
-        private readonly bookService: BookService
+        private readonly bookService: BookService,
+        private readonly userService: UserService,
         ){}
 
     async rentBook(userId,{bookId}:CreateRentalHistoryDTO){
+        const verifyUser = await this.userService.show(userId)
+
+        if(verifyUser.active==false){
+            throw new NotFoundException('User disabled in the system')
+        }
+
         const book = await this.bookService.show(bookId)
         if(!book){
             throw new NotFoundException('Book not found')
@@ -59,7 +65,8 @@ export class RentalHistoryService{
   
 
     async returnBook(userId: number, bookId: number) {
-        console.log('o booke id é:' + bookId);
+
+
         const id = Number(bookId);
     
         const book = await this.prisma.books.findUnique({

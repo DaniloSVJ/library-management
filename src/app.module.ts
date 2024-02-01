@@ -7,6 +7,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './guards/auth.guard';
 import { JwtService } from '@nestjs/jwt';
 import { RentalHistoryModule } from './modules/rentalhistory/rentalhistory.module';
+import { UseGuard } from './guards/auth-role.guard';
 
 @Module({
   imports: [UserModule,BookModule,AuthModule,RentalHistoryModule],
@@ -15,6 +16,10 @@ import { RentalHistoryModule } from './modules/rentalhistory/rentalhistory.modul
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: UseGuard,
     },
   ]
 })

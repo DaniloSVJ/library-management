@@ -1,7 +1,8 @@
 import { CreateUserDTO } from "./create-user.dto";
 import {PartialType} from '@nestjs/mapped-types'
-import {IsString, IsEmail, IsStrongPassword, IsBoolean, IsOptional} from 'class-validator'
+import {IsString, IsEmail, IsStrongPassword, IsBoolean, IsOptional, IsEnum} from 'class-validator'
 import { ApiProperty } from "@nestjs/swagger";
+import { Role } from "../../../enums/role.enums";
 
 export class UpdatePatchUserDTO extends PartialType(CreateUserDTO){
     @ApiProperty()
@@ -29,5 +30,9 @@ export class UpdatePatchUserDTO extends PartialType(CreateUserDTO){
     @IsOptional()
     @IsBoolean()
     active: boolean;
-   
+
+    @ApiProperty({example:'string //opcional. Mas para cadastrar como admin coloque 2'})
+    @IsOptional()
+    @IsEnum(Role)
+    role: number
 }

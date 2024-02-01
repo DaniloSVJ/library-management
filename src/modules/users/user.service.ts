@@ -1,5 +1,5 @@
 import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
-import { PrismaService } from "src/prisma/prisma.service";
+import { PrismaService } from "../../prisma/prisma.service";
 import { CreateUserDTO } from "./dto/create-user.dto";
 import { UpdatePatchUserDTO } from "./dto/update-patch-user.dto";
 import { UpdatePutUserDTO } from "./dto/update-user.dto";
@@ -11,7 +11,7 @@ export class UserService{
 
     constructor(private readonly prisma: PrismaService){}
 
-    async create({email,name,password}:CreateUserDTO){
+    async create({email,name,password,role}:CreateUserDTO){
 
         const existingUser = await this.prisma.user.findFirst({
             where:{
@@ -29,6 +29,7 @@ export class UserService{
                 email,
                 name,
                 password:hashedPassword,
+                role
                 
             },
             
@@ -40,20 +41,33 @@ export class UserService{
     }
 
     async show(id:number){
-        return this.prisma.user.findUnique({
+        const user = await this.prisma.user.findUnique({
             where:{
                 id
             }
         })
+        if(!user){
+            throw new NotFoundException('User not found')
+        }
+        return user
     }
 
     async update(id:number,data:UpdatePutUserDTO){
-        if(!(await this.show(id))){
+        const typeuser = await this.show(id)
+        if(!typeuser){
             throw new NotFoundException('User not found')
         }
+        if( typeuser.role==1 && data.active==false){
+            throw new NotFoundException('Only admin users can disable')
+        }
+
+        if( typeuser.role==1 && data.role==2){
+            throw new NotFoundException('Only admin users can apply rule')
+        }
+
         const hashedPassword = await bcrypt.hash(data.password, 10); // 10 é o número de rounds de hash
         data.password = hashedPassword
-
+        
         return this.prisma.user.update({
             data,
             where:{
@@ -65,15 +79,26 @@ export class UserService{
     }
 
     async updatePartial(id:number,data:UpdatePatchUserDTO){
-        if(!(await this.show(id))){
+      
+        const typeuser = await this.show(id)
+        if(!typeuser){
             throw new NotFoundException('User not found')
         }
-        
+        //Verifica se usuario comum está desativando outros usuários
+        if( typeuser.role==1 && data.active==false){
+            throw new NotFoundException('Only admin users can disable')
+        }
+        //Verifica se usuário comum está mudando para ser admin
+        if( typeuser.role==1 && data.role==2){
+            throw new NotFoundException('Only admin users can apply rule')
+        }
+
         if( data.password){
             const hashedPassword = await bcrypt.hash(data.password, 10); // 10 é o número de rounds de hash
             data.password = hashedPassword
     
         }
+
         return this.prisma.user.update({
             data,
             where:{
@@ -85,7 +110,12 @@ export class UserService{
     }
 
     async delete(id:number){
-        if(!(await this.show(id))){
+        const user = await this.prisma.user.findUnique({
+            where:{
+                id
+            }
+        })
+        if(!user){
             throw new NotFoundException('User not found')
         }
         return this.prisma.user.update({

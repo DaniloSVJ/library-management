@@ -1,11 +1,11 @@
 
 import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { PrismaService } from "src/prisma/prisma.service";
+import { PrismaService } from "../../prisma/prisma.service";
 import * as bcrypt from 'bcrypt';
 import {User} from 'prisma/prisma-client'
 import { Subject } from "rxjs";
-import { UserService } from "src/modules/users/user.service";
+import { UserService } from "../../modules/users/user.service";
 import { AuthRegisterDTO } from "./dto/auth-register";
 
 @Injectable()

@@ -13,7 +13,7 @@ export class UpdatePutBookDTO extends CreateBookDTO{
     @IsString()
     author:string;
   
-    @ApiProperty()
+    @ApiProperty({example:'boolean //opcional'})
     @IsOptional()
     @IsBoolean()
     availability: boolean;
